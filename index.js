@@ -1,5 +1,8 @@
+
+//stable elements
 let navUl=document.querySelector('#nav-link-ul')
 let drinkContainer=document.querySelector('.drink-container')
+let drinkRow=document.querySelector('.drink-cont-row')
 
 
 //fetch drinks on click events
@@ -12,16 +15,31 @@ let listDrinks=(type)=>{
         console.log(results)
         results.drinks.forEach((drink)=>{
             let drinkString=document.createElement("li")
+            drinkString.className="drink-title"
             drinkString.style.listStyle="none"
             let drinkImg=document.createElement('img')
+            drinkImg.className="drink-image"
             drinkImg.style.width="100px"
             drinkString.innerText=drink.strDrink
             drinkImg.src=drink.strDrinkThumb
-            drinkContainer.append(drinkString, drinkImg)
+            drinkRow.append(drinkString, drinkImg)
+            drinkContainer.append(drinkRow)
+
+            //fetch details
+            drinkImg.addEventListener('click', () =>{
+                fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${drink.idDrink}`)
+                .then(res=>res.json())
+                .then((details)=>{
+                    console.log(details)
+                })
+            })
         })
     })
 }
 
+
+
+//create nav links
 let whiskeyLink=document.createElement('li')
 whiskeyLink.id="whiskey-li"
 whiskeyLink.className="nav-li"
